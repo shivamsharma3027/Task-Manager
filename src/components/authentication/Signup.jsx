@@ -23,10 +23,9 @@ function Signup() {
 
     setErrors(newErrors);
 
-    if (Object.keys(newErrors).length > 0) return; // Don't proceed if there are errors
+    if (Object.keys(newErrors).length > 0) return; 
 
-    // Navigate to spinner page while signup request is processing
-    navigate("/spinner");
+   
 
     try {
       const res = await createUserWithEmailAndPassword(

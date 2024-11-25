@@ -13,22 +13,10 @@
       "dueDate": "2024-11-27"
     },
     {
-      "id": "3114",
-      "title": "Food",
-      "description": "necessary for body",
-      "dueDate": "2024-11-29"
-    },
-    {
       "id": "f3ff",
       "title": "Gaming",
-      "description": "For fun",
+      "description": "For fun and chill",
       "dueDate": "2024-11-27"
-    },
-    {
-      "id": "316a",
-      "title": "Project Assignment",
-      "description": "Working for better growth",
-      "dueDate": "2024-11-29"
     }
   ]
 }

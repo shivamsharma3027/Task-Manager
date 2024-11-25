@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTasks } from "../../../context/taskContext";
 import { useUser } from "../../../context/userContext";
-import Spinner from "../componentPages/Spinner.jsx";
+
 import TaskCard from "./TaskCard";
+import Loading from "../componentPages/Loading.jsx";
 
 function TaskList() {
   const { tasks, deleteTask, fetchTasks, loading } = useTasks();
@@ -25,14 +26,14 @@ function TaskList() {
       task.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Pagination logic
+  
   const indexOfLastTask = currentPage * tasksPerPage;
   const indexOfFirstTask = indexOfLastTask - tasksPerPage;
   const currentTasks = filteredTasks.slice(indexOfFirstTask, indexOfLastTask);
   const totalPages = Math.max(
     1,
     Math.ceil(filteredTasks.length / tasksPerPage)
-  ); // Ensure totalPages is at least 1
+  ); 
 
   const nextPage = () => {
     if (currentPage < totalPages) {
@@ -60,17 +61,17 @@ function TaskList() {
     }
   };
 
-  // Update page when filtered tasks change
+  
   useEffect(() => {
     if (currentPage > totalPages) {
-      setCurrentPage(Math.max(1, totalPages)); // Adjust page number if there are fewer tasks than before
+      setCurrentPage(Math.max(1, totalPages)); 
     }
   }, [filteredTasks.length, currentPage, totalPages]);
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <div className="flex-1 container mx-auto px-4 py-8">
-        {/* Header Section */}
+       
         <div className="flex justify-between items-center mb-6 bg-white p-6 rounded-xl shadow-lg">
           <div className="flex items-center space-x-4">
             <input
@@ -93,7 +94,7 @@ function TaskList() {
         </div>
 
         {loading ? (
-          <Spinner />
+          <Loading />
         ) : (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">

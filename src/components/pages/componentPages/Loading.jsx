@@ -1,6 +1,6 @@
 
 
-function Spinner() {
+function Loading() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500">
       <div className="flex flex-col items-center justify-center space-y-4">
@@ -11,4 +11,4 @@ function Spinner() {
   );
 }
 
-export default Spinner;
+export default Loading;
