@@ -17,6 +17,12 @@
       "title": "Gaming",
       "description": "For fun and chill",
       "dueDate": "2024-11-27"
+    },
+    {
+      "id": "e2f4",
+      "title": "Video Editing",
+      "description": "Video are to be edited.",
+      "dueDate": "2024-11-27"
     }
   ]
 }

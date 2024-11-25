@@ -29,7 +29,7 @@ function Login() {
     try {
       await signInWithEmailAndPassword(auth, values.email, values.password);
       console.log("Login successful");
-      navigate("/"); // Redirect to main page after successful login
+      navigate("/"); 
     } catch (err) {
       
       console.error(err.message);

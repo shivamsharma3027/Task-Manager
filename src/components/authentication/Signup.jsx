@@ -42,10 +42,10 @@ function Signup() {
       await auth.currentUser.reload();
       console.log("Updated user:", auth.currentUser);
 
-      navigate("/"); // Redirect to the main page after signup
+      navigate("/"); 
     } catch (err) {
       console.error(err.message);
-      // Handle errors such as email already in use
+      
     }
   };
 
