@@ -1,0 +1,34 @@
+{
+  "tasks": [
+    {
+      "id": "6",
+      "title": "Learning",
+      "description": "Learn JSON Server",
+      "dueDate": "2024-11-25"
+    },
+    {
+      "id": "2709",
+      "title": "Gym",
+      "description": "Health is a priority",
+      "dueDate": "2024-11-27"
+    },
+    {
+      "id": "3114",
+      "title": "Food",
+      "description": "necessary for body",
+      "dueDate": "2024-11-29"
+    },
+    {
+      "id": "f3ff",
+      "title": "Gaming",
+      "description": "For fun",
+      "dueDate": "2024-11-27"
+    },
+    {
+      "id": "316a",
+      "title": "Project Assignment",
+      "description": "Working for better growth",
+      "dueDate": "2024-11-29"
+    }
+  ]
+}
