@@ -1,10 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import API from "../api/api.js"; 
-import { useUser } from "./userContext"; 
-
+import { useUser } from "./userContext";
 
 const TaskContext = createContext();
-
 
 const capitalizeFirstLetter = (str) => {
   if (!str) return "";
@@ -14,67 +11,112 @@ const capitalizeFirstLetter = (str) => {
 const TaskProvider = ({ children }) => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { user } = useUser(); 
+  const { user } = useUser(); // Get user from context
 
-  // Fetch tasks from the API
-  const fetchTasks = async () => {
+  const dummyTasks = [
+    {
+      id: 1,
+      title: "Complete Profile",
+      description: "Fill out all the details in your profile settings.",
+      dueDate: "2024-11-30", // Example due date
+    },
+    {
+      id: 2,
+      title: "Submit Assignment",
+      description: "Upload the completed assignment to the portal.",
+      dueDate: "2024-12-05",
+    },
+    {
+      id: 3,
+      title: "Schedule Meeting",
+      description: "Set up a meeting with the project manager.",
+      dueDate: "2024-12-02",
+    },
+  ];
+
+  // Load tasks from localStorage
+  const fetchTasks = () => {
+    if (!user) return; // Only allow if user is signed in
     setLoading(true);
-  
+
     try {
-      const response = await API.get('/tasks'); 
-      setTasks(response.data); 
+      const storedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+      if (storedTasks.length === 0) {
+        // Save dummy tasks if no tasks exist
+        localStorage.setItem("tasks", JSON.stringify(dummyTasks));
+        setTasks(dummyTasks);
+      } else {
+        setTasks(storedTasks);
+      }
     } catch (error) {
-      console.error("Error fetching tasks:", error);
+      console.error("Error fetching tasks from localStorage:", error);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
-  
-  const addTask = async (task) => {
+  // Add a new task
+  const addTask = (task) => {
+    if (!user) {
+      console.warn("User not signed in. Cannot add task.");
+      return;
+    }
+
     try {
-     
       const newTask = {
         ...task,
+        id: Date.now(), // Unique ID for tasks
         title: capitalizeFirstLetter(task.title),
         description: capitalizeFirstLetter(task.description),
       };
-
-      const response = await API.post('/tasks', newTask);
-      setTasks((prev) => [...prev, response.data]); 
+      const updatedTasks = [...tasks, newTask];
+      setTasks(updatedTasks);
+      localStorage.setItem("tasks", JSON.stringify(updatedTasks));
     } catch (error) {
       console.error("Error adding task:", error);
     }
   };
 
-  
-  const updateTask = async (updatedTask) => {
+  // Update an existing task
+  const updateTask = (updatedTask) => {
+    if (!user) {
+      console.warn("User not signed in. Cannot update task.");
+      return;
+    }
+
     try {
-      const response = await API.put(`/tasks/${updatedTask.id}`, updatedTask);
-      setTasks((prev) =>
-        prev.map((task) => (task.id === updatedTask.id ? response.data : task)) 
+      const updatedTasks = tasks.map((task) =>
+        task.id === updatedTask.id ? updatedTask : task
       );
+      setTasks(updatedTasks);
+      localStorage.setItem("tasks", JSON.stringify(updatedTasks));
     } catch (error) {
       console.error("Error updating task:", error);
     }
   };
 
-  
-  const deleteTask = async (id) => {
+  // Delete a task
+  const deleteTask = (id) => {
+    if (!user) {
+      console.warn("User not signed in. Cannot delete task.");
+      return;
+    }
+
     try {
-      await API.delete(`/tasks/${id}`);
-      setTasks((prev) => prev.filter((task) => task.id !== id)); 
+      const updatedTasks = tasks.filter((task) => task.id !== id);
+      setTasks(updatedTasks);
+      localStorage.setItem("tasks", JSON.stringify(updatedTasks));
     } catch (error) {
       console.error("Error deleting task:", error);
     }
   };
 
-
+  // Automatically fetch tasks if a user is signed in
   useEffect(() => {
-    if (user && tasks.length === 0) { 
+    if (user) {
       fetchTasks();
     }
-  }, [user, tasks.length]); 
+  }, [user]);
 
   return (
     <TaskContext.Provider value={{ tasks, addTask, updateTask, deleteTask, loading, fetchTasks }}>
